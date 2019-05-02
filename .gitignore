@@ -1,3 +1,9 @@
 .classpath
 .project
 .settings/
+target/
+!xml/
+xml/*
+!xml/outputs/
+xml/outputs/*
+!xml/outputs/.*
