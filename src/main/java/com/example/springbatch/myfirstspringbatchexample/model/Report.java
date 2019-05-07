@@ -6,7 +6,6 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "record")
 public class Report {
 
 	private int id;
@@ -15,7 +14,6 @@ public class Report {
 	private String staffName;
 	private Date date;
 
-	@XmlAttribute(name = "id")
 	public int getId() {
 		return id;
 	}
@@ -24,7 +22,6 @@ public class Report {
 		this.id = id;
 	}
 
-	@XmlElement(name = "sales")
 	public BigDecimal getSales() {
 		return sales;
 	}
@@ -33,7 +30,6 @@ public class Report {
 		this.sales = sales;
 	}
 
-	@XmlElement(name = "qty")
 	public int getQty() {
 		return qty;
 	}
@@ -42,7 +38,6 @@ public class Report {
 		this.qty = qty;
 	}
 
-	@XmlElement(name = "staffName")
 	public String getStaffName() {
 		return staffName;
 	}

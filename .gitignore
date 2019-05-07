@@ -7,3 +7,8 @@ xml/*
 !xml/outputs/
 xml/outputs/*
 !xml/outputs/.*
+!csv/
+csv/*
+!csv/outputs/
+csv/outputs/*
+!csv/outputs/.*
