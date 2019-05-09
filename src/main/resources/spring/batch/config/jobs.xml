@@ -8,102 +8,29 @@
 
 	<import resource="./context.xml" />
 
-	<bean id="domain"
-		class="com.example.springbatch.myfirstspringbatchexample.model.Domain"
-		scope="prototype" />
-	<bean id="itemProcessor"
-		class="com.example.springbatch.myfirstspringbatchexample.processors.CustomItemProcessor" />
-	<bean id="itemReaderListener"
-		class="com.example.springbatch.myfirstspringbatchexample.listeners.ItemReaderListener" />
-	<bean id="itemWriterListener"
-		class="com.example.springbatch.myfirstspringbatchexample.listeners.ItemWriterListener" />
-	<bean id="stepListener"
-		class="com.example.springbatch.myfirstspringbatchexample.listeners.StepListener" />
 	<bean id="myTasklet"
 		class="com.example.springbatch.myfirstspringbatchexample.tasklet.MyTasklet"
-		scope="prototype" />
+		scope="prototype">
+		<property name="parameterValues">
+            <map>
+                <entry key="fileFormater" value="#{stepExecutionContext[fileFormater]}"/>                
+            </map>
+        </property>	
+	</bean>
 	<bean id="taskExecutor" class="org.springframework.core.task.SimpleAsyncTaskExecutor" />
-	<bean id="taskletTwo"
-		class="com.example.springbatch.myfirstspringbatchexample.tasklet.TaskletTwo"
-		scope="prototype" />
+	<bean id="myPartitioner"
+		class="com.example.springbatch.myfirstspringbatchexample.partitioner.MyPartitioner"
+		/>
 
 	<batch:job id="helloWorldJob">
-		<batch:step id="step1" next="step2">
-			<batch:tasklet>
-				<batch:chunk reader="cvsMultiFileItemReader" writer="cvsFileItemWriter"
-					processor="itemProcessor" commit-interval="3">
-
-					<batch:listeners>
-						<batch:listener ref="itemReaderListener"></batch:listener>
-						<batch:listener ref="itemWriterListener"></batch:listener>
-						<batch:listener ref="stepListener"></batch:listener>
-					</batch:listeners>
-				</batch:chunk>
-			</batch:tasklet>
+		<batch:step id="master.step" next="step2">
+			<batch:partition step="slave.step" partitioner="myPartitioner">
+				<batch:handler grid-size=2 task-executor="taskExecutor" />
+			</batch:partition>
 		</batch:step>
-		<batch:split id="step2" task-executor="taskExecutor" next="step3">
-			<batch:flow>
-				<batch:step id="task1">
-					<batch:tasklet ref="taskletTwo"></batch:tasklet>
-				</batch:step>
-			</batch:flow>
-			<batch:flow>
-				<batch:step id="task2">
-					<batch:tasklet ref="taskletTwo"></batch:tasklet>
-				</batch:step>
-			</batch:flow>
-		</batch:split>
-		<batch:step id="step3">
+		<batch:step id="slave.Step"
+			xmlns="http://www.springframework.org/schema/batch">
 			<batch:tasklet ref="myTasklet"></batch:tasklet>
 		</batch:step>
 	</batch:job>
-
-	<bean id="cvsMultiFileItemReader"
-		class="org.springframework.batch.item.file.MultiResourceItemReader">
-		<property name="resources" value="classpath:csv/input/domain-*.csv" />
-		<property name="delegate" ref="cvsFileItemReader" />
-	</bean>
-
-	<bean id="cvsFileItemReader" class="org.springframework.batch.item.file.FlatFileItemReader">
-
-		<property name="lineMapper">
-			<bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
-				<property name="lineTokenizer">
-					<bean
-						class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
-						<property name="names" value="id,domain" />
-					</bean>
-				</property>
-				<property name="fieldSetMapper">
-					<bean
-						class="org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper">
-						<property name="prototypeBeanName" value="domain" />
-					</bean>
-				</property>
-			</bean>
-		</property>
-
-	</bean>
-
-	<bean id="cvsFileItemWriter" class="org.springframework.batch.item.file.FlatFileItemWriter">
-
-		<!-- write to this csv file -->
-		<property name="resource" value="file:csv/outputs/domain.all.csv" />
-		<!-- <property name="appendAllowed" value="true" /> -->
-		<property name="shouldDeleteIfExists" value="true" />
-
-		<property name="lineAggregator">
-			<bean
-				class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
-				<property name="delimiter" value="," />
-				<property name="fieldExtractor">
-					<bean
-						class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
-						<property name="names" value="id,domain" />
-					</bean>
-				</property>
-			</bean>
-		</property>
-	</bean>
-
 </beans>
