@@ -1,16 +1,16 @@
 package com.example.springbatch.myfirstspringbatchexample;
 
 import org.springframework.batch.item.ItemProcessor;
-import com.example.springbatch.myfirstspringbatchexample.model.Report;
 
-public class CustomItemProcessor implements ItemProcessor<Report, Report> {
+import com.example.springbatch.myfirstspringbatchexample.model.Domain;
+
+public class CustomItemProcessor implements ItemProcessor<Domain, Domain> {
 
 	@Override
-	public Report process(Report item) throws Exception {
-		
+	public Domain process(Domain item) throws Exception {
+
 		System.out.println("Processing..." + item);
 		return item;
 	}
 
 }
-

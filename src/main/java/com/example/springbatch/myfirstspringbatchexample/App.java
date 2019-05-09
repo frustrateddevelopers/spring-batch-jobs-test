@@ -11,18 +11,14 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * Hello world!
  *
  */
-public class App 
-{
+public class App {
 	public static void main(String[] args) {
 
-		String[] springConfig  = 
-			{	
-				"spring/batch/config/jobs.xml" 
-			};
-			
-		ApplicationContext context = 
-				new ClassPathXmlApplicationContext(springConfig);
-			
+		String[] springConfig = { "spring/batch/config/jobs.xml" };
+
+		ApplicationContext context = new ClassPathXmlApplicationContext(
+				springConfig);
+
 		JobLauncher jobLauncher = (JobLauncher) context.getBean("jobLauncher");
 		Job job = (Job) context.getBean("helloWorldJob");
 
@@ -37,5 +33,5 @@ public class App
 
 		System.out.println("Done");
 
-	  }
+	}
 }
