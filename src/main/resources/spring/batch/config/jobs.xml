@@ -10,27 +10,23 @@
 
 	<bean id="myTasklet"
 		class="com.example.springbatch.myfirstspringbatchexample.tasklet.MyTasklet"
-		scope="prototype">
-		<property name="parameterValues">
-            <map>
-                <entry key="fileFormater" value="#{stepExecutionContext[fileFormater]}"/>                
-            </map>
-        </property>	
+		scope="step">
+		<property name="name" value="#{stepExecutionContext[name]}"></property>
+		<property name="fileFormatter" value="#{stepExecutionContext[fileFormatter]}"></property>
 	</bean>
 	<bean id="taskExecutor" class="org.springframework.core.task.SimpleAsyncTaskExecutor" />
 	<bean id="myPartitioner"
-		class="com.example.springbatch.myfirstspringbatchexample.partitioner.MyPartitioner"
-		/>
+		class="com.example.springbatch.myfirstspringbatchexample.partitioner.MyPartitioner" />
 
 	<batch:job id="helloWorldJob">
-		<batch:step id="master.step" next="step2">
+		<batch:step id="master.step">
 			<batch:partition step="slave.step" partitioner="myPartitioner">
-				<batch:handler grid-size=2 task-executor="taskExecutor" />
+				<batch:handler grid-size="2" task-executor="taskExecutor" />
 			</batch:partition>
-		</batch:step>
-		<batch:step id="slave.Step"
+		</batch:step>		
+	</batch:job>
+	<batch:step id="slave.step"
 			xmlns="http://www.springframework.org/schema/batch">
 			<batch:tasklet ref="myTasklet"></batch:tasklet>
 		</batch:step>
-	</batch:job>
 </beans>
