@@ -50,15 +50,15 @@
 
 	</bean>
 
-	<!-- <bean id="xmlItemWriter" class="org.springframework.batch.item.xml.StaxEventItemWriter">
-		<property name="resource" value="file:xml/outputs/report.xml" />
-		<property name="marshaller" ref="reportMarshaller" />
-		<property name="rootTagName" value="report" />
-	</bean> -->
+	<bean id="csvFileItemWriterCallback" class="com.example.springbatch.myfirstspringbatchexample.StringHeaderWriter" scope="prototype">
+	</bean>
 	
-	<bean id="cvsFileItemWriter" class="org.springframework.batch.item.file.FlatFileItemWriter">
+	<bean id="cvsFileItemWriter" class="com.example.springbatch.myfirstspringbatchexample.CustomFlatFileItemWriter"
+	 init-method="init">
 
         <!-- write to this csv file -->
+        <property name="header" value="id,sales,qty,staffName,date" />
+        <property name="headerCallback" ref="csvFileItemWriterCallback" />
         <property name="resource" value="file:csv/outputs/report.csv" />
         <property name="shouldDeleteIfExists" value="true" />
 
