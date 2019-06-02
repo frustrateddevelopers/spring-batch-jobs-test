@@ -16,16 +16,16 @@ public class ReportFieldSetMapper implements FieldSetMapper<Report> {
 	public Report mapFieldSet(FieldSet fieldSet) throws BindException {
 		
 		Report report = new Report();
-		report.setId(fieldSet.readInt(0));
-		report.setSales(fieldSet.readBigDecimal(1));
-		report.setQty(fieldSet.readInt(2));
-		report.setStaffName(fieldSet.readString(3));
+		report.setId_report(fieldSet.readInt(0));
+		report.setSales_report(fieldSet.readBigDecimal(1));
+		report.setQty_report(fieldSet.readInt(2));
+		report.setStaffName_report(fieldSet.readString(3));
 		
 		//default format yyyy-MM-dd
 		//fieldSet.readDate(4);
 		String date = fieldSet.readString(4);
 		try {
-			report.setDate(dateFormat.parse(date));
+			report.setDate_report(dateFormat.parse(date));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
