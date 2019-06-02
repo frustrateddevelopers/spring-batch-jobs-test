@@ -13,13 +13,11 @@ class StringHeaderWriter implements FlatFileHeaderCallback {
     public void writeHeader(Writer writer) throws IOException {
         writer.write(header);
     }
-
-	public String getHeader() {
-		return header;
-	}
-
-	public void setHeader(String header) {
+	
+	public void setHeader(String header){
 		this.header = header;
 	}
+	
+	
 }
 

@@ -50,14 +50,13 @@
 
 	</bean>
 
-	<bean id="csvFileItemWriterCallback" class="com.example.springbatch.myfirstspringbatchexample.StringHeaderWriter" scope="prototype">
-		<property name="header" value="id,sales,qty,staffName,date" />
+	<bean id="csvFileItemWriterCallback" class="com.example.springbatch.myfirstspringbatchexample.StringHeaderWriter" scope="prototype">		
 	</bean>
 	
 	<bean id="cvsFileItemWriter" class="com.example.springbatch.myfirstspringbatchexample.CustomFlatFileItemWriter"
 	 init-method="init">
 
-        <!-- write to this csv file -->        
+        <!-- write to this csv file -->                
         <property name="headerCallback" ref="csvFileItemWriterCallback" />
         <property name="resource" value="file:csv/outputs/report.csv" />
         <property name="shouldDeleteIfExists" value="true" />
