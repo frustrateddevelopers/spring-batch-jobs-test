@@ -72,7 +72,7 @@
 		<property name="resource" value="file:csv/outputs/report.csv" />
 		<property name="shouldDeleteIfExists" value="true" />
 		<property name="header"
-			value="id,sales,qty,staffName,date" />
+			value="#{jobExecutionContext['header']}" />
 
 		<property name="lineAggregator" ref="customeLineAggregator" />
 

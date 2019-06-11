@@ -91,7 +91,8 @@ public class PropertyListener implements JobExecutionListener{
 		
 		// TODO Auto-generated method stub
 		System.out.println("Before Running Job");
-		jobExecution.getExecutionContext().put("filePath", "C:\\Users\\muhammad.siddiqui\\Documents\\projects\\myfirstspringbatchexample\\src\\main\\resources\\custome_header.properties");
+		System.out.println("Setting Header");
+		jobExecution.getExecutionContext().put("header", "id,sales,qty,staffName,date");
 	}
 
 }
