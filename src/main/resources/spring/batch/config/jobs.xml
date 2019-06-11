@@ -54,12 +54,12 @@
 	</batch:job>
 
 	<bean id="customeLineAggregator"
-		class="com.example.springbatch.myfirstspringbatchexample.CustomeLineAggregator">
+		class="com.example.springbatch.myfirstspringbatchexample.CustomeLineAggregator" scope="step">
 		<property name="delimiter" value="," />
 		<property name="fieldExtractor">
 			<bean
-				class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
-				<property name="names" value="id_report,sales_report,qty_report,staffName_report,date_report" />
+				class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">				
+				<property name="names" value="#{jobExecutionContext['ifrs_aggregator']}" />
 			</bean>
 		</property>
 	</bean>
@@ -72,7 +72,7 @@
 		<property name="resource" value="file:csv/outputs/report.csv" />
 		<property name="shouldDeleteIfExists" value="true" />
 		<property name="header"
-			value="#{jobExecutionContext['header']}"/>
+			value="#{jobExecutionContext['ifrs']}"/>
 
 		<property name="lineAggregator" ref="customeLineAggregator" />
 
