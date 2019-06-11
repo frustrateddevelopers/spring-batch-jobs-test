@@ -65,14 +65,14 @@
 	</bean>
 	<bean id="cvsFileItemWriter"
 		class="com.example.springbatch.myfirstspringbatchexample.CustomFlatFileItemWriter"
-		init-method="init">
+		init-method="init" scope="step">
 
 		<!-- write to this csv file -->
 		<property name="headerCallback" ref="csvFileItemWriterCallback" />
 		<property name="resource" value="file:csv/outputs/report.csv" />
 		<property name="shouldDeleteIfExists" value="true" />
 		<property name="header"
-			value="#{jobExecutionContext['header']}" />
+			value="#{jobExecutionContext['header']}"/>
 
 		<property name="lineAggregator" ref="customeLineAggregator" />
 
